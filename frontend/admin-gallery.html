@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin-Gallery</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap" rel="stylesheet">
+  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+  <link rel="stylesheet" href="css/admin-gallery.css">
+</head>
+
+<body>
+
+<div class="dashboard-wrapper"> 
+
+  <!-- SIDEBAR (Independent) -->
+  <aside class="sidebar">
+    
+    <div class="logo">
+      <a class="nav-brand" href="index.html">
+        <img src="assets/images/CWS-LOGO1.png" alt="Creative Web Solution" class="nav-logo"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="brand-fallback" style="display:none;">
+          <span class="brand-box">CWS</span>
+          <span class="brand-tail">.<span>life</span></span>
+        </div>
+      </a>
+    </div>
+
+    <div class="close-btn">
+      <i class="fa-solid fa-xmark"></i>
+    </div>
+
+    <ul class="menu">
+      <!-- FIXED: Removed hardcoded 'active' class. JS will handle this now. -->
+      <li>
+        <!-- CHANGED: Added data-page="dashboard" to match admin-dashboard sidebar structure -->
+        <a href="admin-dashboard.html" data-page="dashboard">
+          <!-- CHANGED: Added class="icon" to img so CSS filter (white color) applies correctly like admin-dashboard -->
+          <img src="./assets/icons/DASHBOARD.png" class="icon" alt="">
+          <span class="menu-text">Dashboard</span>
+        </a>
+      </li>
+      
+      <!-- COMMENTED: BLOGS -->
+      <!-- <li>
+        <a href="#" class="nav-link">
+          <img src="assets/icons/BLOGS.png" class="icon">
+          <span class="menu-text">Blogs</span>
+        </a>
+      </li> -->
+      
+      <li>
+        <!-- CHANGED: Added class="icon" to img -->
+        <a href="admin-events.html">
+          <img src="./assets/icons/EVENTS.png" class="icon" alt="">
+          <span class="menu-text">Events</span>
+        </a>
+      </li>
+      <li>
+        <a href="admin-gallery.html" class="nav-link" data-page="gallery">
+          <!-- CHANGED: Added class="icon" to img -->
+          <img src="./assets/icons/GALLERY.png" class="icon" alt="">
+          <span class="menu-text">Gallery</span>
+        </a>
+      </li>
+      <li>
+        <a href="admin-socialservices.html" class="nav-link" data-page="social-service">
+          <!-- CHANGED: Added class="icon" to img -->
+          <img src="./assets/icons/SOCIAL SERVICE.png" class="icon" alt="">
+          <span class="menu-text">Social Service</span>
+        </a>
+      </li>
+      <li>
+        <a href="career-panel.html" class="nav-link" data-page="careers">
+          <!-- CHANGED: Added class="icon" to img -->
+          <img src="./assets/icons/CARRER.png" class="icon" alt="">
+          <span class="menu-text">Careers</span>
+        </a>
+      </li>
+      
+      <!-- COMMENTED: USERS & ROLES -->
+      <!-- <li>
+        <a href="#">
+          <img src="assets/icons/USER&ROLES.png" class="icon">
+          <span class="menu-text">Users & Roles</span>
+        </a>
+      </li> -->
+      
+      <!-- COMMENTED: ANALYTICS -->
+      <!-- <li>
+        <a href="#">
+          <img src="assets/icons/ANALYTICS.png" class="icon">
+          <span class="menu-text">Analytics</span>
+        </a>
+      </li> -->
+
+      <li>
+        <a href="admin-contact-us.html" class="nav-link" data-page="contact">
+          <img src="assets/icons/cs2.png" class="icon">
+          <span class="menu-text">Contact Us</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="admin-setting.html" class="nav-link" data-page="settings">
+          <!-- CHANGED: Added class="icon" to img -->
+          <img src="./assets/icons/SETTING.png" class="icon" alt="">
+          <span class="menu-text">Setting</span>
+        </a>
+      </li>
+    </ul>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <div class="main">
+    
+    <div class="main-wrapper">
+      
+      <header class="top-navbar">
+        
+        <div class="hamburger">
+          <i class="fa-solid fa-bars"></i>
+        </div>
+
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass navbar-search-icon"></i>
+          <input type="text" id="searchInput" placeholder="Search..." oninput="checkAndRefresh(this)">
+        </div>
+
+        <div class="nav-right">
+
+          <div class="notification-dropdown-wrapper">
+          <div class="notification" id="notifyBtn">
+            <i class="fa-regular fa-bell"></i>
+            <span class="badge" style="display:none;">0</span>
+          </div>
+          <span class="menu-text notification-text">Notification</span>
+          <div class="notification-popup" id="notifyPopup">
+            <div class="notify-header">
+              <span class="notify-title">Notifications</span>
+              <span class="mark-read" onclick="markAllAsRead()">Mark all as read</span>
+            </div>
+            <ul class="notify-list" id="notifyList"></ul>
+            <!-- <div class="notify-footer">
+              <a href="admin-contact-us.html">View All Notifications</a>
+            </div> -->
+          </div>
+        </div>
+
+          <!-- Profile Dropdown -->
+          <div class="profile-dropdown-wrapper">
+            <div class="profile" id="profileBtn">AS</div>
+            
+            <div class="dropdown-menu" id="logoutDropdown">
+              <ul>
+                <!-- <li class="menu-item">
+                  <a href="#">
+                    <i class="fa-regular fa-user"></i> 
+                    <span>My Profile</span>
+                  </a>
+                </li> -->
+                
+                <li class="menu-item">
+                  <a href="#" onclick="handleLogout(); return false;">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    <span>Logout</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </header>
+
+      <div class="gallery-page-container">
+
+        <!-- Breadcrumb Container -->
+        <div class="breadcrumb-layout">
+          <a href="admin-dashboard.html" class="breadcrumb-home">Home</a>
+          <span class="separator"> > </span>
+          <span class="current">Gallery</span>
+        </div>
+
+        <!-- Top Row -->
+        <div class="gallery-top">
+
+          <h1>Gallery</h1>
+
+          <div class="gallery-actions">
+
+            <div class="gallery-search">
+              <i class="fa-solid fa-magnifying-glass gallery-search-icon"></i>
+              <input type="text" id="gallerySearchInput" placeholder="Search" oninput="checkAndRefresh(this)">
+            </div>
+
+            <button class="filter-btn" id="filterBtn">
+              <i class="fa-solid fa-sliders"></i>
+              Filter
+            </button>
+
+            <button class="add-btn" id="openAddPageBtn">
+              + Add New
+            </button>
+
+          </div>
+        </div>
+        <div class="gallery-layout-box">
+        
+        <!-- Tabs -->
+        <div class="gallery-tabs">
+
+          <button class="tab active" data-filter="all">
+            <i class="fa-solid fa-table-cells-large"></i>
+            All Images
+          </button>
+
+          <button class="tab" data-filter="Team">
+            <i class="fa-solid fa-user-group"></i>
+            Team
+          </button>
+
+          <button class="tab" data-filter="Infrastructure">
+            <i class="fa-solid fa-building"></i>
+            Infrastructure
+          </button>
+
+          <button class="tab" data-filter="Events">
+            <i class="fa-solid fa-calendar"></i>
+            Events
+          </button>
+
+          <button class="tab" data-filter="Birthday Bash">
+            <i class="fa-solid fa-cake-candles"></i>
+            Birthday Bash
+          </button>
+
+          <button class="tab" data-filter="Work Anniversary">
+            <i class="fa-solid fa-cake-candles"></i>
+            Work Anniversary
+          </button>
+
+          <button class="tab" data-filter="CWS_VIDEO">
+            <i class="fa-solid fa-cake-candles"></i>
+            Cws Event Videos
+          </button>
+
+          <div class="tabs-right-wrapper">
+            <div class="sort-wrapper">
+              <select class="sort-select" id="sortSelect">
+                <option value="newest">Sort by: Newest</option>
+                <option value="oldest">Oldest</option>
+              </select>
+              <i class="fa-solid fa-chevron-down custom-arrow"></i>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Gallery Grid -->
+       <div class="gallery-grid" id="galleryGrid">
+
+       </div>
+
+
+          <!-- Pagination -->
+          <div class="pagination" id="paginationContainer">
+            <button class="pagination-btn">
+              <i class="fa-solid fa-angle-left"></i>
+            </button>
+
+            <button class="pagination-btn active-page">1</button>
+
+            <button class="pagination-btn">2</button>
+
+            <button class="pagination-btn">...</button>
+
+            <button class="pagination-btn">3</button>
+
+            <button class="pagination-btn">
+              <i class="fa-solid fa-angle-right"></i>
+            </button>
+          </div>
+
+        </div> <!-- End gallery-layout-box -->
+      </div> 
+      
+    </div>
+
+      <!-- COPYRIGHT TEXT -->
+      <div class="copyright-section">
+            <p class="copyright-text">Copyright &copy; 2025 - 2026 <a href="https://www.creativewebsolution.in/" target="_blank" class="company-name"> Creative Web
+                    Solution</a>. ALL RIGHTS RESERVED</p>
+      </div>
+  </div>
+</div> 
+
+<!-- ======================================================= -->
+<!-- POPUP -->
+<!-- ======================================================= -->
+<div class="popup-backdrop" id="popupBackdrop"></div>
+
+<div class="popup-container" id="popupContainer">
+  <div class="add-page-header">
+        <div class="header-title-left" id="popupTitle">
+            Add Image/Video
+        </div>
+
+        <!-- RIGHT: Close Button -->
+        <div class="header-actions">
+          <button class="close-add-page-btn" id="closeAddPageBtn">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+  </div>
+
+  <div class="add-page-content">
+    
+    <!-- STEP 1: Select Category -->
+    <div class="form-group">
+      <label class="form-label">Select Category</label>
+      <div class="popup-select-wrapper">
+        <select class="custom-select" id="categorySelect">
+          <option value="">-- Choose a Category --</option>
+          <option value="team">Team</option>
+          <option value="infrastructure">Infrastructure</option>
+          <option value="events">Events</option>
+          <option value="birthday">Birthday Bash</option>
+          <option value="work_anniversary">Work Anniversary</option>
+          <option value="CWS_VIDEO">CWS Event Videos</option>
+        </select>
+        <i class="fa-solid fa-chevron-down popup-select-arrow"></i>
+      </div>
+    </div>
+
+    <div class="image-title-container">
+        <div class="form-group">
+            <!-- Title Text -->
+            <label class="form-label">Enter Image/Videos Title</label>
+            <input type="text" id="manualImageTitle" class="custom-select" placeholder="Enter name here..." style="height: 50px;">
+        </div>
+    </div>
+
+
+    <!-- STEP 3: Select File Type (Images/Videos) -->
+    <div class="upload-options-container" id="uploadOptions">
+      <div class="options-title">What would you like to add?</div>
+      <div class="option-buttons">
+        
+        <div class="upload-type-btn" id="btnAddImages" tabindex="0" role="button" aria-label="Add Images">
+          <i class="fa-regular fa-images"></i>
+          <span>Add Images</span>
+        </div>
+        
+        <div class="upload-type-btn" id="btnAddVideos" tabindex="0" role="button" aria-label="Add Videos">
+          <i class="fa-solid fa-video"></i>
+          <span>Add Videos</span>
+        </div>
+
+      </div>
+
+      <!-- HIDDEN FILE INPUTS -->
+      <input type="file" id="fileInputImages" accept="image/*" multiple style="display: none;">
+      <input type="file" id="fileInputVideos" accept="video/*" multiple style="display: none;">
+    </div>
+
+    <!-- STEP 4: Add Button -->
+    <div class="add-button-container" id="addButtonContainer">
+      <button class="final-add-btn" id="finalAddBtn">
+        <i class="fa-solid fa-plus"></i> <span id="btnText">Add Item</span>
+      </button>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ============================================ -->
+<!-- UPDATED: NEW SIDEBAR HIGHLIGHT SCRIPT -->
+<!-- ============================================ -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Get current page URL
+    const currentPath = window.location.pathname;
+
+    // Select all sidebar links
+    const menuLinks = document.querySelectorAll('.menu li');
+
+    menuLinks.forEach(li => {
+      const link = li.querySelector('a');
+      const pageName = link.getAttribute('data-page');
+
+      if (pageName) {
+        // Check if current URL contains the page name string
+        if (currentPath.includes(pageName)) {
+          li.classList.add('active');
+        } else {
+          li.classList.remove('active');
+        }
+      }
+    });
+  });
+</script>
+
+
+<!-- ==========================================
+     CHANGED: Updated open/close logic for popup
+     ========================================== -->
+<script>
+    const openAddBtn = document.getElementById('openAddPageBtn');
+    const closeAddBtn = document.getElementById('closeAddPageBtn');
+    const popupContainer = document.getElementById('popupContainer');
+    const popupBackdrop = document.getElementById('popupBackdrop');
+    const categorySelect = document.getElementById('categorySelect');
+    const manualImageTitle = document.getElementById('manualImageTitle'); 
+    const uploadOptions = document.getElementById('uploadOptions');
+    const fileInputImages = document.getElementById('fileInputImages');
+    const fileInputVideos = document.getElementById('fileInputVideos');
+    const addButtonContainer = document.getElementById('addButtonContainer');
+    const finalAddBtn = document.getElementById('finalAddBtn');
+    const popupTitle = document.getElementById('popupTitle');
+    const btnText = document.getElementById('btnText');
+
+    // State to track if we are editing or adding
+    let isEditing = false;
+    let currentEditId = null;
+
+    // --- Open & Close Page (ADD MODE) ---
+    if(openAddBtn) {
+      openAddBtn.addEventListener('click', () => {
+        // Reset to Add Mode
+        isEditing = false;
+        currentEditId = null;
+        if(popupTitle) popupTitle.textContent = "Add Image/Video";
+        if(btnText) btnText.textContent = "Add Item";
+        
+        resetForm();
+        
+        if(popupContainer) popupContainer.classList.add('active');
+        if(popupBackdrop) popupBackdrop.classList.add('active');
+        if(document.body) document.body.style.overflow = 'hidden';
+        const dashboard = document.querySelector('.dashboard-wrapper');
+        if(dashboard) dashboard.setAttribute('inert', '');
+        if(categorySelect) categorySelect.focus();
+      });
+    }
+
+    if(closeAddBtn) {
+      closeAddBtn.addEventListener('click', () => {
+        if(popupContainer) popupContainer.classList.remove('active');
+        if(popupBackdrop) popupBackdrop.classList.remove('active');
+        if(document.body) document.body.style.overflow = '';
+        const dashboard = document.querySelector('.dashboard-wrapper');
+        if(dashboard) dashboard.removeAttribute('inert');
+        resetForm();
+      });
+    }
+
+    if(popupBackdrop) {
+      popupBackdrop.addEventListener('click', () => {
+        if(popupContainer) popupContainer.classList.remove('active');
+        if(popupBackdrop) popupBackdrop.classList.remove('active');
+        if(document.body) document.body.style.overflow = '';
+        const dashboard = document.querySelector('.dashboard-wrapper');
+        if(dashboard) dashboard.removeAttribute('inert');
+        resetForm();
+      });
+    }
+
+    function resetForm() {
+      if(categorySelect) categorySelect.value = "";
+      if(manualImageTitle) {
+        manualImageTitle.value = "";
+      }
+      if(fileInputImages) fileInputImages.value = "";
+      if(fileInputVideos) fileInputVideos.value = "";
+
+       const btnAddImages = document.getElementById('btnAddImages');
+       const btnAddVideos = document.getElementById('btnAddVideos');
+
+       if(btnAddImages) {
+        btnAddImages.innerHTML = `
+        <i class="fa-regular fa-images"></i>
+        <span>Add Images</span>
+       `;
+       btnAddImages.style.pointerEvents = "auto";
+       btnAddImages.style.opacity = "1";
+       }
+
+      if(btnAddVideos) {
+        btnAddVideos.innerHTML = `
+        <i class="fa-solid fa-video"></i>
+        <span>Add Videos</span>
+       `;
+       btnAddVideos.style.pointerEvents = "auto";
+       btnAddVideos.style.opacity = "1";
+      }
+
+      if(uploadOptions) uploadOptions.style.display = 'block';
+      if(addButtonContainer) addButtonContainer.style.display = 'block';
+      
+       // Reset edit state
+       isEditing = false;
+       currentEditId = null;
+       if(popupTitle) popupTitle.textContent = "Add Image/Video";
+       if(btnText) btnText.textContent = "Add Item";
+    }
+
+    if(categorySelect) {
+  categorySelect.addEventListener('change', function() {
+    const selectedCategory = this.value;
+    const btnAddImages = document.getElementById('btnAddImages');
+    const btnAddVideos = document.getElementById('btnAddVideos');
+
+    if(selectedCategory === "CWS_VIDEO") {
+      if(btnAddVideos) {
+        btnAddVideos.style.pointerEvents = "auto";
+        btnAddVideos.style.opacity = "1";
+      }
+      if(btnAddImages) {
+        btnAddImages.style.pointerEvents = "none";
+        btnAddImages.style.opacity = "0.5";
+      }
+    } else if(selectedCategory !== "") {
+      if(btnAddImages) {
+        btnAddImages.style.pointerEvents = "auto";
+        btnAddImages.style.opacity = "1";
+      }
+      if(btnAddVideos) {
+        btnAddVideos.style.pointerEvents = "none";
+        btnAddVideos.style.opacity = "0.5";
+      }
+    } else {
+      if(btnAddImages) {
+        btnAddImages.style.pointerEvents = "auto";
+        btnAddImages.style.opacity = "1";
+      }
+      if(btnAddVideos) {
+        btnAddVideos.style.pointerEvents = "auto";
+        btnAddVideos.style.opacity = "1";
+      }
+    }
+  });
+}
+
+    const btnAddImages = document.getElementById('btnAddImages');
+    const btnAddVideos = document.getElementById('btnAddVideos');
+
+    if(btnAddImages && fileInputImages){
+      btnAddImages.addEventListener('click', () => {
+        fileInputImages.click();
+      });
+
+      btnAddImages.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          fileInputImages.click();
+        }
+      });
+
+      fileInputImages.addEventListener('change', function() {
+  if(this.files && this.files.length > 0) {
+    const file = this.files[0];
+    const imageUrl = URL.createObjectURL(file);
+
+    btnAddImages.innerHTML = `
+      <div style="display:flex; align-items:center; gap:10px;">
+        <img src="${imageUrl}" style="width:60px; height:60px; object-fit:cover; border-radius:8px;">
+        <span>Image Added</span>
+      </div>
+    `;
+    if(addButtonContainer) addButtonContainer.style.display = 'block';
+  }
+});
+    }
+
+    if(btnAddVideos && fileInputVideos){
+      btnAddVideos.addEventListener('click', () => {
+        fileInputVideos.click();
+      });
+
+      btnAddVideos.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          fileInputVideos.click();
+        }
+      });
+
+      fileInputVideos.addEventListener('change', function() {
+  if(this.files && this.files.length > 0) {
+    const file = this.files[0];
+    const videoUrl = URL.createObjectURL(file);
+
+    btnAddVideos.innerHTML = `
+      <div style="display:flex; align-items:center; gap:10px;">
+        <video width="60" height="60" style="border-radius:8px; object-fit:cover;">
+          <source src="${videoUrl}">
+        </video>
+        <span>Video Added</span>
+      </div>
+    `;
+    if(addButtonContainer) addButtonContainer.style.display = 'block';
+  }
+});
+    }
+
+    // --- FINAL ADD / UPDATE BUTTON LOGIC ---
+    if(finalAddBtn) {
+      finalAddBtn.addEventListener('click', async () => {
+      try {
+      const category = categorySelect.value;
+      const title = manualImageTitle.value;
+      let selectedFile = null;
+      if(fileInputImages.files.length > 0) {
+          selectedFile = fileInputImages.files[0];
+      } else if(fileInputVideos.files.length > 0) {
+           selectedFile = fileInputVideos.files[0];
+      }
+
+      let typeText = "image";
+      if(category === "CWS_VIDEO" || (selectedFile && selectedFile.type.startsWith("video"))) {
+          typeText = "video";
+      }
+
+      const displayCategory = category.charAt(0).toUpperCase() + category.slice(1).replace('_', ' ');
+      
+      const formData = new FormData();
+      if(selectedFile) {
+          formData.append("image", selectedFile);
+      }
+       formData.append("category", category);
+       formData.append("title", title);
+       
+      let apiUrl = "http://localhost:8080/api/gallery/add";
+      let method = "POST";
+      
+      // IF EDITING
+      if(isEditing && currentEditId) {
+          apiUrl = `http://localhost:8080/api/gallery/update/${currentEditId}`; 
+          method = "PUT"; 
+          successMsg = "Item Updated Successfully";
+      }
+
+      const response = await fetch(apiUrl, {
+          method: method,
+          body: formData
+      });
+      const result = await response.text();
+
+         if(response.ok) {
+          alert(result);
+          const notificationMessage = `You ${isEditing ? 'updated' : 'added'} a ${typeText} in ${displayCategory}`;
+          // addNotification(notificationMessage);
+
+          loadGallery();
+
+          if(popupContainer) popupContainer.classList.remove('active');
+          if(popupBackdrop) popupBackdrop.classList.remove('active');
+          if(document.body) document.body.style.overflow = '';
+          
+          const dashboard = document.querySelector('.dashboard-wrapper');
+          if(dashboard) dashboard.removeAttribute('inert');
+          
+          resetForm();
+          } else {
+          alert(result);
+         }
+        } catch(error) {
+          console.error(error);
+          alert("Operation failed ❌");
+        }
+    });
+
+}
+
+    // PAGINATION LOGIC
+    const paginationButtons = document.querySelectorAll('.pagination-btn');
+    paginationButtons.forEach(btn => {
+      btn.addEventListener('click', function() {
+        paginationButtons.forEach(b => b.classList.remove('active-page'));
+        if (!this.innerHTML.includes('fa-angle')) {
+          this.classList.add('active-page');
+        }
+      });
+    });
+  
+</script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const tabs = document.querySelectorAll('.gallery-tabs .tab');
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            renderGallery(1);
+        });
+    });
+});
+</script>
+
+
+
+<!--use this dynamic code to fetch images(Jayashree) (FIXED: PAGINATION ALWAYS VISIBLE) -->
+<script>
+const API_URL = "http://localhost:8080/api/gallery/all";
+let allGallery = [];
+const ITEMS_PER_PAGE = 16; 
+let currentPage = 1;
+
+async function loadGallery() {
+    try {
+        const response = await fetch(API_URL);
+        const data = await response.json();
+        console.log("ALL GALLERY DATA =", data); 
+        allGallery = data;
+        allGallery.sort((a, b) => new Date(b.uploadDate) - new Date(a.uploadDate));
+        
+        const defaultTab = document.querySelector('[data-filter="all"]');
+        
+        document.querySelectorAll('.gallery-tabs .tab').forEach(t => t.classList.remove('active'));
+        
+        if(defaultTab) {
+            defaultTab.classList.add('active');
+            renderGallery(1);
+        }
+
+    } catch (error) {
+        console.error("Error loading gallery:", error);
+    }
+}
+
+function handleNavbarInput(inputElement) {
+    if (inputElement.value.trim() === "") {
+        window.location.reload();
+    } else {
+        searchGallery(inputElement.value);
+    }
+}
+
+function renderGallery(pageNumber) {
+    currentPage = pageNumber;
+    const galleryGrid = document.getElementById("galleryGrid");
+    if(!galleryGrid) return;
+    
+    galleryGrid.innerHTML = "";
+
+    const activeTab = document.querySelector('.gallery-tabs .tab.active');
+    let filterValue = "all";
+    if(activeTab) {
+        filterValue = activeTab.getAttribute('data-filter');
+    }
+
+    let filteredData = allGallery.filter(item => {
+        let itemCat = item.category;
+        if(itemCat === "team") itemCat = "Team";
+        else if(itemCat === "infrastructure") itemCat = "Infrastructure";
+        else if(itemCat === "events") itemCat = "Events";
+        else if(itemCat === "birthday") itemCat = "Birthday Bash";
+        else if(itemCat === "work_anniversary") itemCat = "Work Anniversary";
+        else if(itemCat === "CWS_VIDEO") itemCat = "CWS_VIDEO";
+
+        if (filterValue === "all") {
+            return itemCat !== "CWS_VIDEO"; 
+        } else if (filterValue === "CWS_VIDEO") {
+            return itemCat === "CWS_VIDEO";
+        } else {
+            return itemCat === filterValue;
+        }
+    });
+
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    const pageItems = filteredData.slice(startIndex, endIndex);
+
+    pageItems.forEach(item => {
+        let category = item.category;
+        if(category === "team") category = "Team";
+        else if(category === "infrastructure") category = "Infrastructure";
+        else if(category === "events") category = "Events";
+        else if(category === "birthday") category = "Birthday Bash";
+        else if(category === "work_anniversary") category = "Work Anniversary";
+        else if(category === "CWS_VIDEO") category = "CWS_VIDEO";
+
+        const smallImage =
+    "http://localhost:8080" + item.smallImagePath;
+
+    const mediumImage =
+    "http://localhost:8080" + item.mediumImagePath;
+
+    const imageUrl =
+    "http://localhost:8080" + item.largeImagePath;
+
+        let mediaTag = "";
+        
+        if(category === "CWS_VIDEO") {
+            mediaTag = `<video controls width="100%"><source src="${imageUrl}" type="video/mp4"></video>`;
+        } else {
+            mediaTag = `
+           <img
+                src="${smallImage}"
+                data-small="${smallImage}"
+                data-medium="${mediumImage}"
+                class="gallery-image"
+                alt="gallery"
+              />
+          `;
+        }
+
+        // UPDATED HTML STRUCTURE WITH BUTTONS
+        let cardHTML = `
+        <div class="gallery-card" data-category="${category}" data-id="${item.id}">
+            ${mediaTag}
+            <div class="card-actions-overlay">
+                <button class="action-btn btn-edit" onclick="openEditPopup(${item.id})" title="Edit">
+                    <i class="fa-solid fa-pencil"></i>
+                </button>
+                <button class="action-btn btn-delete" onclick="deleteItem(${item.id})" title="Delete">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+            </div>
+        </div>`;
+        galleryGrid.innerHTML += cardHTML;
+    });
+
+    updatePaginationControls(filteredData.length);
+}
+
+function updatePaginationControls(totalItems) {
+    const paginationContainer = document.getElementById('paginationContainer');
+    if(!paginationContainer) return;
+    
+    paginationContainer.classList.remove('search-hidden');
+    const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+
+    let html = `
+        <button class="pagination-btn" onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled style="opacity:0.5; cursor:not-allowed;"' : ''}>
+            <i class="fa-solid fa-angle-left"></i>
+        </button>
+    `;
+
+    if (totalPages >= 1) {
+        for (let i = 1; i <= totalPages; i++) {
+            html += `
+                <button class="pagination-btn ${i === currentPage ? 'active-page' : ''}" onclick="changePage(${i})">
+                    ${i}
+                </button>
+            `;
+        }
+    }
+
+    html += `
+        <button class="pagination-btn" onclick="changePage(${currentPage + 1})" ${currentPage >= totalPages ? 'disabled style="opacity:0.5; cursor:not-allowed;"' : ''}>
+            <i class="fa-solid fa-angle-right"></i>
+        </button>
+    `;
+
+    paginationContainer.innerHTML = html;
+}
+
+function changePage(page) {
+    renderGallery(page);
+    const galleryPageContainer = document.querySelector('.gallery-page-container');
+    if(galleryPageContainer) galleryPageContainer.scrollIntoView({ behavior: 'smooth' });
+}
+
+document.addEventListener("DOMContentLoaded", loadGallery);
+
+// SEARCH LOGIC
+const navbarSearch = document.getElementById("searchInput");
+const gallerySearch = document.getElementById("gallerySearchInput");
+const filterBtn = document.getElementById("filterBtn");
+
+function searchGallery(keyword) {
+    keyword = keyword.trim().toLowerCase();
+    const paginationContainer = document.getElementById('paginationContainer');
+    if(paginationContainer) paginationContainer.classList.add('search-hidden');
+    
+    const galleryGrid = document.getElementById("galleryGrid");
+    if(!galleryGrid) return;
+    
+    galleryGrid.innerHTML = ""; 
+
+    if(!keyword) {
+        if(paginationContainer) paginationContainer.classList.remove('search-hidden');
+        renderGallery(currentPage);
+        return;
+    }
+
+    const filteredData = allGallery.filter(item => {
+        const title = (item.title || "").toLowerCase();
+        const category = (item.category || "").toLowerCase();
+        return title.includes(keyword) || category.includes(keyword);
+    });
+
+    if (filteredData.length > 0) {
+        const firstResult = filteredData[0];
+        let resultCategory = firstResult.category;
+        let targetTabFilter = "all";
+        
+        if(resultCategory === "team") targetTabFilter = "Team";
+        else if(resultCategory === "infrastructure") targetTabFilter = "Infrastructure";
+        else if(resultCategory === "events") targetTabFilter = "Events";
+        else if(resultCategory === "birthday") targetTabFilter = "Birthday Bash";
+        else if(resultCategory === "work_anniversary") targetTabFilter = "Work Anniversary";
+        else if(resultCategory === "CWS_VIDEO") targetTabFilter = "CWS_VIDEO";
+
+        switchTab(targetTabFilter);
+    }
+
+    filteredData.forEach(item => {
+        let category = item.category;
+        if(category === "team") category = "Team";
+        else if(category === "infrastructure") category = "Infrastructure";
+        else if(category === "events") category = "Events";
+        else if(category === "birthday") category = "Birthday Bash";
+        else if(category === "work_anniversary") category = "Work Anniversary";
+        else if(category === "CWS_VIDEO") category = "CWS_VIDEO";
+
+        const imageUrl = "http://localhost:8080" + (item.smallImagePath || item.mediumImagePath || item.largeImagePath);
+        let mediaTag = category === "CWS_VIDEO" 
+            ? `<video controls width="100%"><source src="${imageUrl}" type="video/mp4"></video>` 
+            : `<img src="${imageUrl}" alt="gallery">`;
+        
+        let card = `
+        <div class="gallery-card" data-category="${category}" data-id="${item.id}">
+            ${mediaTag}
+            <div class="card-actions-overlay">
+                <button class="action-btn btn-edit" onclick="openEditPopup(${item.id})" title="Edit">
+                    <i class="fa-solid fa-pencil"></i>
+                </button>
+                <button class="action-btn btn-delete" onclick="deleteItem(${item.id})" title="Delete">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+            </div>
+        </div>`;
+        galleryGrid.innerHTML += card;
+    });
+}
+
+function switchTab(filterValue) {
+    document.querySelectorAll('.gallery-tabs .tab').forEach(t => t.classList.remove('active'));
+    const targetTab = document.querySelector(`.gallery-tabs .tab[data-filter="${filterValue}"]`);
+    if(targetTab) {
+        targetTab.classList.add('active');
+    } else {
+        const allTab = document.querySelector(`.gallery-tabs .tab[data-filter="all"]`);
+        if(allTab) allTab.classList.add('active');
+    }
+}
+
+if(navbarSearch){
+    navbarSearch.addEventListener("input", () => {
+        searchGallery(navbarSearch.value);
+    });
+}
+
+if(filterBtn && gallerySearch){
+    filterBtn.addEventListener("click", () => {
+        searchGallery(gallerySearch.value);
+    });
+}
+
+// SORT LOGIC
+const sortSelect = document.getElementById("sortSelect");
+if(sortSelect){
+    sortSelect.addEventListener("change", () => {
+        if(sortSelect.value === "newest"){
+            allGallery.sort((a, b) => new Date(b.uploadDate) - new Date(a.uploadDate));
+        } else {
+            allGallery.sort((a, b) => new Date(a.uploadDate) - new Date(b.uploadDate));
+        }
+        renderGallery(1); 
+    });
+}
+
+// ==========================================
+// NEW: EDIT & DELETE FUNCTIONS
+// ==========================================
+
+// 1. OPEN EDIT POPUP
+function openEditPopup(id) {
+    // Find the item data
+    const item = allGallery.find(i => i.id === id);
+    if (!item) {
+        alert("Item data not found!");
+        return;
+    }
+
+    // Set Mode
+    isEditing = true;
+    currentEditId = id;
+
+    // Change UI Text
+    const popupTitle = document.getElementById("popupTitle");
+    const btnText = document.getElementById("btnText");
+    
+    if(popupTitle) popupTitle.textContent = "Edit Image/Video";
+    if(btnText) btnText.textContent = "Update";
+
+    // Populate Fields
+    const categorySelect = document.getElementById('categorySelect');
+    const manualImageTitle = document.getElementById('manualImageTitle');
+    
+    // 1. Category
+    if(categorySelect) {
+        categorySelect.value = item.category;
+        // Trigger change event to update button states
+        categorySelect.dispatchEvent(new Event('change'));
+    }
+
+    // 2. Title
+    if(manualImageTitle) {
+        manualImageTitle.value = item.title;
+    }
+
+    // 3. Show existing media preview in the upload box
+    const imageUrl = "http://localhost:8080" + item.largeImagePath;
+    const isVideo = item.category === "CWS_VIDEO" || (item.largeImagePath && item.largeImagePath.match(/\.(mp4|webm|ogg)$/i));
+
+    if (isVideo) {
+        const btnAddVideos = document.getElementById('btnAddVideos');
+        if(btnAddVideos) {
+            btnAddVideos.innerHTML = `
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <video width="60" height="60" style="border-radius:8px; object-fit:cover;">
+                        <source src="${imageUrl}">
+                    </video>
+                    <span>Current Video</span>
+                </div>
+            `;
+        }
+    } else {
+        const btnAddImages = document.getElementById('btnAddImages');
+        if(btnAddImages) {
+            btnAddImages.innerHTML = `
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <img src="${imageUrl}" style="width:60px; height:60px; object-fit:cover; border-radius:8px;">
+                    <span>Current Image</span>
+                </div>
+            `;
+        }
+    }
+
+    // Show Popup
+    if(popupContainer) popupContainer.classList.add('active');
+    if(popupBackdrop) popupBackdrop.classList.add('active');
+    if(document.body) document.body.style.overflow = 'hidden';
+    const dashboard = document.querySelector('.dashboard-wrapper');
+    if(dashboard) dashboard.setAttribute('inert', '');
+}
+
+// 2. DELETE ITEM
+async function deleteItem(id) {
+    if(!confirm("Are you sure you want to delete this item?")) {
+        return;
+    }
+
+    try {
+        // Adjust URL if your delete API is different
+        const response = await fetch(`http://localhost:8080/api/gallery/delete/${id}`, {
+            method: 'DELETE'
+        });
+
+        const result = await response.text();
+
+        if(response.ok) {
+            alert("Item deleted successfully");
+            // if(typeof addNotification === 'function') {
+            //     addNotification("An item was deleted from Gallery");
+            // }
+            loadGallery(); // Reload the grid
+        } else {
+            alert("Failed to delete item: " + result);
+        }
+    } catch (error) {
+        console.error("Delete error:", error);
+        alert("Error deleting item");
+    }
+}
+</script>
+
+<script>
+  // function checkAndRefresh(inputElement) {
+  //   if (inputElement.value.trim() === "") {
+  //     window.location.reload();
+  //   }
+  // }
+
+function checkAndRefresh(inputElement) {
+    if (inputElement.value.trim() === "") {
+
+        document.querySelectorAll('.gallery-tabs .tab')
+            .forEach(tab => tab.classList.remove('active'));
+
+        const allTab = document.querySelector(
+            '.gallery-tabs .tab[data-filter="all"]'
+        );
+
+        if (allTab) {
+            allTab.classList.add('active');
+        }
+
+        renderGallery(1);
+
+        inputElement.value = "";
+    }
+}
+
+  document.addEventListener("mouseover", function(e){
+
+    if(e.target.classList.contains("gallery-image")){
+
+        const medium =
+            e.target.dataset.medium;
+
+        e.target.src = medium;
+    }
+});
+
+document.addEventListener("mouseout", function(e){
+
+    if(e.target.classList.contains("gallery-image")){
+
+        const small =
+            e.target.dataset.small;
+
+        e.target.src = small;
+    }
+});
+</script>
+<script src="js/admin-auth.js"></script>
+<script src="js/admin-notifications.js"></script>
+</body>
+</html>
