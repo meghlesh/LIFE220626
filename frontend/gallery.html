@@ -1083,7 +1083,7 @@ const videoGallery = document.getElementById("videoGallery");
 // LOAD API
 // =========================================
 
-fetch("http://localhost:8080/api/gallery/all")
+fetch("https://api-lifeqa-be.azurewebsites.net/api/gallery/all")
 
   .then(response => response.json())
 
@@ -1123,7 +1123,7 @@ function renderGallery(data) {
                     <video class="gallery-video" controls>
 
                         <source
-                            src="http://localhost:8080${item.largeImagePath}"
+                            src="https://api-lifeqa-be.azurewebsites.net${item.largeImagePath}"
                             type="video/mp4">
 
                     </video>
@@ -1170,10 +1170,10 @@ function renderGallery(data) {
                 <div class="gallery-card ${item.category.toLowerCase()}">
 
                     <img
-                        src="http://localhost:8080${item.smallImagePath}"
-   data-small="http://localhost:8080${item.smallImagePath}"
-   data-medium="http://localhost:8080${item.mediumImagePath}"
-   data-large="http://localhost:8080${item.largeImagePath}"
+                        src="https://api-lifeqa-be.azurewebsites.net${item.smallImagePath}"
+   data-small="https://api-lifeqa-be.azurewebsites.net${item.smallImagePath}"
+   data-medium="https://api-lifeqa-be.azurewebsites.net${item.mediumImagePath}"
+   data-large="https://api-lifeqa-be.azurewebsites.net${item.largeImagePath}"
    alt="${item.title}">
 
    

@@ -417,7 +417,7 @@ function prevImage() {
 
 //     const container = document.getElementById("contributionContainer");
 
-//     fetch("http://localhost:8080/api/contribution/getAll")
+//     fetch("https://api-lifeqa-be.azurewebsites.net/api/contribution/getAll")
 //         .then(res => res.json())
 //         .then(data => {
 
@@ -433,7 +433,7 @@ function prevImage() {
 //                     container.innerHTML += `
 //                         <div class="contribution-card">
 
-//                             <img src="http://localhost:8080${item.imageUrl}" />
+//                             <img src="https://api-lifeqa-be.azurewebsites.net${item.imageUrl}" />
 
 //                             <div class="card-content">
 
@@ -469,12 +469,12 @@ document.addEventListener("DOMContentLoaded", function() {
   // ── 1. GALLERY BACKEND LOADING ──
   var galleryTrack = document.getElementById('socialGalleryTrack');
 
-  fetch("http://localhost:8080/api/social/getAll")
+  fetch("https://api-lifeqa-be.azurewebsites.net/api/social/getAll")
   .then(function(res) { return res.json(); })
   .then(function(data) {
     if (data && data.length > 0) {
       galleryTrack.innerHTML = data.map(function(item) {
-        return '<div class="gallery-item"><img src="http://localhost:8080' + item.imageUrl + '" alt=""></div>';
+        return '<div class="gallery-item"><img src="https://api-lifeqa-be.azurewebsites.net' + item.imageUrl + '" alt=""></div>';
       }).join('');
       
       // After loading, reset scroll to start
@@ -634,7 +634,7 @@ document.addEventListener("DOMContentLoaded", function() {
       const cardHTML = `
         <div class="contribution-card">
           <div class="card-image">
-            <img src="http://localhost:8080${item.imageUrl}" alt="${item.title}">
+            <img src="https://api-lifeqa-be.azurewebsites.net${item.imageUrl}" alt="${item.title}">
           </div>
           <div class="card-content">
             <h3>${item.title}</h3>
@@ -686,7 +686,7 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   // FETCH DATA ONCE
-  fetch("http://localhost:8080/api/contribution/getAll")
+  fetch("https://api-lifeqa-be.azurewebsites.net/api/contribution/getAll")
   .then(res => res.json())
   .then(data => {
     if (data && data.length > 0) {

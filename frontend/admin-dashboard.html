@@ -946,7 +946,7 @@ items.forEach(item => {
 <script>
 // ── Load Events in Dashboard Table ──
 function loadDashboardEvents() {
-  fetch('http://localhost:8080/api/events/upcoming')
+  fetch('https://api-lifeqa-be.azurewebsites.net/api/events/upcoming')
   .then(function(res) { return res.json(); })
   .then(function(events) {
 
@@ -996,7 +996,7 @@ function loadDashboardEvents() {
     tbody.innerHTML = html;
 
     // Total events count fetch 
-    fetch('http://localhost:8080/api/events/count')
+    fetch('https://api-lifeqa-be.azurewebsites.net/api/events/count')
     .then(function(res) { return res.json(); })
     .then(function(countData) {
       var eventsCountEl = document.querySelector('.stat-card:first-child .card-number');
@@ -1032,7 +1032,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function loadEventCount() {
 
-    fetch('http://localhost:8080/api/events/count')
+    fetch('https://api-lifeqa-be.azurewebsites.net/api/events/count')
     .then(response => response.json())
     .then(data => {
 
@@ -1079,7 +1079,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
 
             const response = await fetch(
-                'http://localhost:8080/api/visitors'
+                'https://api-lifeqa-be.azurewebsites.net/api/visitors'
             );
 
             const data = await response.json();
@@ -1175,7 +1175,7 @@ function renderActivities() {
 // Load recent activities from backend
 async function loadRecentActivities() {
     try {
-        const response = await fetch('http://localhost:8080/admin/dashboard/recent-activities');
+        const response = await fetch('https://api-lifeqa-be.azurewebsites.net/admin/dashboard/recent-activities');
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         
         const activities = await response.json();
@@ -1382,7 +1382,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. CONTACT US NOTIFICATION SETUP
     function startContactUsListener() {
         // Yahan apni CONTACT US backend API URL daalein
-        // const CONTACT_API_URL = 'http://localhost:8080/api/contact-us/submit'; 
+        // const CONTACT_API_URL = 'https://api-lifeqa-be.azurewebsites.net/api/contact-us/submit'; 
 
         /* 
         fetch(CONTACT_API_URL, { method: 'POST', body: formData })
@@ -1398,7 +1398,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. CAREER NOTIFICATION SETUP
     function startCareerListener() {
         // Yahan apni CAREER backend API URL daalein
-        // const CAREER_API_URL = 'http://localhost:8080/api/careers/apply'; 
+        // const CAREER_API_URL = 'https://api-lifeqa-be.azurewebsites.net/api/careers/apply'; 
 
         /* 
         fetch(CAREER_API_URL, { method: 'POST', body: jobData })
@@ -1493,7 +1493,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function loadMediaCount() {
 
-    fetch('http://localhost:8080/admin/dashboard/media-count')
+    fetch('https://api-lifeqa-be.azurewebsites.net/admin/dashboard/media-count')
     .then(response => response.json())
     .then(data => {
 

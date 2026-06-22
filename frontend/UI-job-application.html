@@ -354,7 +354,7 @@
     console.log("JOB ID SENT:", jobId);
    
 
-    fetch("http://localhost:8080/api/apply/submit", {
+    fetch("https://api-lifeqa-be.azurewebsites.net/api/apply/submit", {
         method: "POST",
         body: formData
     })
@@ -618,7 +618,7 @@ form.resume.addEventListener("change", function () {
 
    if (jobId) {
 
-    fetch(`http://localhost:8080/api/career/${jobId}`)
+    fetch(`https://api-lifeqa-be.azurewebsites.net/api/career/${jobId}`)
         .then(res => res.json())
         .then(job => {
             console.log("JOB DATA:", job);
