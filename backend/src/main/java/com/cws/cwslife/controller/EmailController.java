@@ -20,7 +20,7 @@ import org.springframework.http.ResponseEntity;
     "http://localhost:5500",
     "http://127.0.0.1:5500", 
     "http://localhost:5501",
-    "http://127.0.0.1:5501",
+    "https://app-lifeqa-fe.azurewebsites.net",
     "https://api-lifeqa-be.azurewebsites.net"
 })
 public class EmailController {
