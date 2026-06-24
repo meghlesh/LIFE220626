@@ -11,15 +11,15 @@ public class WebConfig implements WebMvcConfigurer {
 
         // Gallery images
         registry.addResourceHandler("/gallery/**")
-                .addResourceLocations("file:./gallery/");
+                .addResourceLocations("file:/home/site/wwwroot/gallery/");
 
-        // Events images
+        // Event images
         registry.addResourceHandler("/uploads/events/**")
-                .addResourceLocations("file:uploads/events/");
-        
-        // Social Contribution Images
+                .addResourceLocations("file:/home/site/wwwroot/uploads/events/");
+
+        // Other uploads
         registry.addResourceHandler("/uploads/**")
-                .addResourceLocations("file:uploads/");
+                .addResourceLocations("file:/home/site/wwwroot/uploads/");
     }
 
     @Override
