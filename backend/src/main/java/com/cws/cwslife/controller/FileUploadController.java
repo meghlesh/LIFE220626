@@ -12,9 +12,11 @@ import java.util.*;
 public class FileUploadController {
 
     // application.properties se upload path lo
-    @Value("${app.upload.dir}")
-    private String uploadDir;
-
+   // @Value("${app.upload.dir}")
+   // private String uploadDir;
+// path 
+    private final String uploadDir = 
+        System.getProperty("user.dir") + "/uploads/events/";
     // POST /api/upload/image
     // URL return 
     @PostMapping("/image")
