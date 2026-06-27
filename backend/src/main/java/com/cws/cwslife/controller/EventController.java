@@ -142,24 +142,24 @@ public class EventController {
             return ResponseEntity.badRequest().body(error);
         }
 
-     // Duplicate image check compare with filename 
-        if (imageUrl != null && !imageUrl.isEmpty()) {
-            String newFileName = imageUrl.substring(imageUrl.lastIndexOf('/') + 1);
-            // timestamp_originalname.jpeg → originalname.jpeg
-            String newOriginalName = newFileName.contains("_")
-                ? newFileName.substring(newFileName.indexOf('_') + 1)
-                : newFileName;
-
-            boolean imageExists = eventRepository.findAll().stream()
-                .filter(e -> e.getImageUrl() != null && !e.getImageUrl().isEmpty())
-                .anyMatch(e -> e.getImageUrl().contains(newOriginalName));
-
-            if (imageExists) {
-                Map<String, String> error = new HashMap<>();
-                error.put("message", "This image is already used in another event. Please upload a different image!");
-                return ResponseEntity.badRequest().body(error);
-            }
-        }
+//     // Duplicate image check compare with filename 
+//        if (imageUrl != null && !imageUrl.isEmpty()) {
+//            String newFileName = imageUrl.substring(imageUrl.lastIndexOf('/') + 1);
+//            // timestamp_originalname.jpeg → originalname.jpeg
+//            String newOriginalName = newFileName.contains("_")
+//                ? newFileName.substring(newFileName.indexOf('_') + 1)
+//                : newFileName;
+//
+//            boolean imageExists = eventRepository.findAll().stream()
+//                .filter(e -> e.getImageUrl() != null && !e.getImageUrl().isEmpty())
+//                .anyMatch(e -> e.getImageUrl().contains(newOriginalName));
+//
+//            if (imageExists) {
+//                Map<String, String> error = new HashMap<>();
+//                error.put("message", "This image is already used in another event. Please upload a different image!");
+//                return ResponseEntity.badRequest().body(error);
+//            }
+//        }
 
         // Event object
         Event event = new Event();
